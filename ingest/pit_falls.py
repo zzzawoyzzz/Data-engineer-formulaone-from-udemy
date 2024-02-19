@@ -7,68 +7,63 @@ display(dbutils.fs.ls('/mnt/source_datalake/raw_from_udemy/pit_stops.json'))
 
 # COMMAND ----------
 
-schema_results="""constructorId int,
-driverId int,
-fastestLap string,
-fastestLapSpeed float,
-fastestLapTime string,
-grid int,
-laps int,
-milliseconds string,
-number string,
-points float,
-position string,
-positionOrder int,
-positionText string,
-raceId int,
-rank string,
-resultId int,
-statusId int,
-time string
-"""
+from pyspark.sql.types import StructType,StructField,IntegerType,StringType
+pit_stops_schema=StructType(fields=[StructField(name='driverId',dataType=IntegerType(),nullable=False),
+                                    StructField(name='duration',dataType=StringType(),nullable=True),
+                                    StructField(name='lap',dataType=IntegerType(),nullable=True),
+                                    StructField(name='milliseconds',dataType=IntegerType(),nullable=True),
+                                    StructField(name='raceId',dataType=IntegerType(),nullable=True),
+                                    StructField(name='stop',dataType=IntegerType(),nullable=True),
+                                    StructField(name='time',dataType=StringType(),nullable=True)
+                                    ]
+                            )                            
+
 
 # COMMAND ----------
 
-display(spark.read\
-.option('multiLine',True)
-.json('/mnt/source_datalake/raw_from_udemy/pit_stops.json'))
+df_pit_fall=spark.read\
+.schema(pit_stops_schema)\
+.option('multiLine',True)\
+.json('/mnt/source_datalake/raw_from_udemy/pit_stops.json')
 
 # COMMAND ----------
 
-name=""
-for col_name in df_results.dtypes:
-    name=name+f'"{col_name[0]}", \n'
-print(name[:-3])
+from pyspark.sql.functions import col,current_timestamp
+
+df_ingest_pit_fall=df_pit_fall.withColumnRenamed("driverId","driver_id")\
+.withColumnRenamed("raceId","race_id")\
+.withColumn("current_timestamp",current_timestamp())
+
+
 
 # COMMAND ----------
 
-df_ingest_results=df_results.selectExpr("constructorId as constructor_id", 
-"driverId as driver_id", 
-"fastestLap as fastest_lap", 
-"fastestLapSpeed as fastest_lap_speed", 
-"fastestLapTime as fastest_lap_time", 
-"grid", 
-"laps", 
-"milliseconds", 
-"number", 
-"points", 
-"position", 
-"positionOrder as position_order", 
-"positionText as position_text", 
-"raceId as race_id", 
-"rank", 
-"resultId as result_id", 
-"time")
+display(df_ingest_pit_fall)
 
 # COMMAND ----------
 
-df_ingest_results.write.format('delta')\
-    .partitionBy('race_id')\
+df_ingest_pit_fall.write.format('delta')\
     .mode('overwrite')\
-    .option("overwriteSchema", "true")\
-    .save("/mnt/formula1/ingest_datalake/results")
-
+    .save("/mnt/formula1/ingest_datalake/pit_falls")
 
 # COMMAND ----------
 
-display(dbutils.fs.ls('/mnt/formula1/ingest_datalake/results'))
+# MAGIC %sql
+# MAGIC select * from pit_fall_test
+
+# COMMAND ----------
+
+display(dbutils.fs.ls('/mnt/formula1/ingest_datalake/pit_falls/'))
+
+# COMMAND ----------
+
+display(spark.sql("select * from json.`/mnt/formula1/ingest_datalake/pit_falls/_delta_log/00000000000000000000.json`").first().commitInfo.engineInfo)
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC show databases;
+
+# COMMAND ----------
+
+
