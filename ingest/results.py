@@ -3,7 +3,16 @@
 
 # COMMAND ----------
 
-display(dbutils.fs.ls('/mnt/source_datalake/raw_from_udemy/results.json'))
+# MAGIC %run ../configuration/configuration
+
+# COMMAND ----------
+
+# source_datalake="/mnt/source_datalake/"
+# cleansed__datalake="/mnt/formula1/ingest_datalake/"
+
+# COMMAND ----------
+
+display(dbutils.fs.ls(f'{source_datalake}raw_from_udemy/results.json'))
 
 # COMMAND ----------
 
@@ -66,9 +75,58 @@ df_ingest_results.write.format('delta')\
     .partitionBy('race_id')\
     .mode('overwrite')\
     .option("overwriteSchema", "true")\
-    .save("/mnt/formula1/ingest_datalake/results")
+    .save(f"{cleansed__datalake}results")
 
 
 # COMMAND ----------
 
 display(dbutils.fs.ls('/mnt/formula1/ingest_datalake/results'))
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC show schemas;
+# MAGIC use formula_ingest;
+# MAGIC show tables;
+
+# COMMAND ----------
+
+#test
+def create_delta_table(database, table_name, location):
+    try:
+        spark.sql(f"DROP TABLE IF EXISTS {database}.{table_name}")
+        is_partition = dbutils.fs.ls(f'{location}')[1].name
+        if is_partition.endswith("/"):
+            dbutils.fs.ls(f'{location}')[1].name
+            partition_vaule=is_partition.split("=")[0]
+            columns = spark.read.format('delta').load(f'{location}').dtypes
+            schema = ""
+            for name_and_type in columns:
+                schema = schema + name_and_type[0] + ' ' + name_and_type[1] + ',\n'
+            spark.sql(f"""
+                        CREATE TABLE {database}.{table_name}
+                        (
+                          {schema[:-2]}  
+                        )
+                        USING DELTA
+                        PARTITIONED BY ({partition_vaule})
+                        LOCATION '{location}'
+                    """)
+        else:
+            columns = spark.read.format('delta').load(f'{location}').dtypes
+            schema = ""
+            for name_and_type in columns:
+                schema = schema + name_and_type[0] + ' ' + name_and_type[1] + ',\n'
+            spark.sql(f"""CREATE OR REPLACE TABLE {database}.{table_name}
+                        ({schema[:-2]})  
+                        USING DELTA
+                        LOCATION '{location}' 
+                    """)
+    except Exception as err:
+        print("Error occurred: ", str(err))
+
+create_delta_table(database='formula_ingest', table_name='results', location="/mnt/formula1/ingest_datalake/results")
+
+# COMMAND ----------
+
+

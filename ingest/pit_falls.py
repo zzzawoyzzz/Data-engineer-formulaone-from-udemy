@@ -3,7 +3,11 @@
 
 # COMMAND ----------
 
-display(dbutils.fs.ls('/mnt/source_datalake/raw_from_udemy/pit_stops.json'))
+# MAGIC %run ../configuration/configuration
+
+# COMMAND ----------
+
+display(dbutils.fs.ls(f'{source_datalake}raw_from_udemy/pit_stops.json'))
 
 # COMMAND ----------
 
@@ -44,25 +48,11 @@ display(df_ingest_pit_fall)
 
 df_ingest_pit_fall.write.format('delta')\
     .mode('overwrite')\
-    .save("/mnt/formula1/ingest_datalake/pit_falls")
+    .save(f"{cleansed__datalake}pit_falls")
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC select * from pit_fall_test
-
-# COMMAND ----------
-
-display(dbutils.fs.ls('/mnt/formula1/ingest_datalake/pit_falls/'))
-
-# COMMAND ----------
-
-display(spark.sql("select * from json.`/mnt/formula1/ingest_datalake/pit_falls/_delta_log/00000000000000000000.json`").first().commitInfo.engineInfo)
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC show databases;
+create_delta_table(database='formula_ingest',table_name='pit_falls',location='/mnt/formula1/ingest_datalake/pit_falls/')
 
 # COMMAND ----------
 

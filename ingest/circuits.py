@@ -3,10 +3,14 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../configuration/configuration
+
+# COMMAND ----------
+
 df_circuit=spark.read.option("header",True)\
     .option('inferSchema',True)\
     .option('sep',",")\
-    .csv('/mnt/source_datalake/circuits.csv')
+    .csv(f'{source_datalake}circuits.csv')
 
 # COMMAND ----------
 
@@ -26,9 +30,9 @@ display(df_ingest)
 
 df_ingest.write.format('delta')\
     .mode('overwrite')\
-    .save("/mnt/formula1/ingest_datalake/circuits")
+    .save(f"{cleansed__datalake}circuits")
 
 
 # COMMAND ----------
 
-
+create_delta_table(database='formula_ingest',table_name='circuits',location='/mnt/formula1/ingest_datalake/circuits/')

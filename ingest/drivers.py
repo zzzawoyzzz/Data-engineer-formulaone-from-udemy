@@ -3,7 +3,11 @@
 
 # COMMAND ----------
 
-display(dbutils.fs.ls('/mnt/source_datalake/raw_from_udemy/drivers.json'))
+# MAGIC %run ../configuration/configuration
+
+# COMMAND ----------
+
+display(dbutils.fs.ls(f'{source_datalake}raw_from_udemy/drivers.json'))
 
 # COMMAND ----------
 
@@ -39,13 +43,9 @@ df_ingest_driver=df_driver.selectExpr("code string",
 
 df_ingest_driver.write.format('delta')\
     .mode('overwrite')\
-    .save("/mnt/formula1/ingest_datalake/drivers")
+    .save(f"{cleansed__datalake}drivers")
 
 
 # COMMAND ----------
 
-display(dbutils.fs.ls('/mnt/formula1/ingest_datalake/drivers'))
-
-# COMMAND ----------
-
-
+create_delta_table(database='formula_ingest',table_name='drivers',location='/mnt/formula1/ingest_datalake/drivers/')
