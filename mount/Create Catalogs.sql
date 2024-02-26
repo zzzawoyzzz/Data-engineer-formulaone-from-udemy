@@ -1,9 +1,9 @@
 -- Databricks notebook source
-show databases;
+show catalogs;
 
 -- COMMAND ----------
 
-CREATE DATABASE IF NOT EXISTS formula_ingest
+create catalog prod_formula1;
 
 -- COMMAND ----------
 

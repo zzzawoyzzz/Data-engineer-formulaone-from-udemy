@@ -26,11 +26,11 @@ laps int,
 milliseconds string,
 number string,
 points float,
-position string,
+position int,
 positionOrder int,
 positionText string,
 raceId int,
-rank string,
+rank int,
 resultId int,
 statusId int,
 time string
@@ -44,10 +44,7 @@ df_results=spark.read\
 
 # COMMAND ----------
 
-name=""
-for col_name in df_results.dtypes:
-    name=name+f'"{col_name[0]}", \n'
-print(name[:-3])
+display(df_results)
 
 # COMMAND ----------
 
@@ -84,48 +81,14 @@ display(dbutils.fs.ls('/mnt/formula1/ingest_datalake/results'))
 
 # COMMAND ----------
 
+create_delta_table(database='formula_ingest',table_name='results',location='/mnt/formula1/ingest_datalake/results')
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC show schemas;
 # MAGIC use formula_ingest;
 # MAGIC show tables;
-
-# COMMAND ----------
-
-#test
-def create_delta_table(database, table_name, location):
-    try:
-        spark.sql(f"DROP TABLE IF EXISTS {database}.{table_name}")
-        is_partition = dbutils.fs.ls(f'{location}')[1].name
-        if is_partition.endswith("/"):
-            dbutils.fs.ls(f'{location}')[1].name
-            partition_vaule=is_partition.split("=")[0]
-            columns = spark.read.format('delta').load(f'{location}').dtypes
-            schema = ""
-            for name_and_type in columns:
-                schema = schema + name_and_type[0] + ' ' + name_and_type[1] + ',\n'
-            spark.sql(f"""
-                        CREATE TABLE {database}.{table_name}
-                        (
-                          {schema[:-2]}  
-                        )
-                        USING DELTA
-                        PARTITIONED BY ({partition_vaule})
-                        LOCATION '{location}'
-                    """)
-        else:
-            columns = spark.read.format('delta').load(f'{location}').dtypes
-            schema = ""
-            for name_and_type in columns:
-                schema = schema + name_and_type[0] + ' ' + name_and_type[1] + ',\n'
-            spark.sql(f"""CREATE OR REPLACE TABLE {database}.{table_name}
-                        ({schema[:-2]})  
-                        USING DELTA
-                        LOCATION '{location}' 
-                    """)
-    except Exception as err:
-        print("Error occurred: ", str(err))
-
-create_delta_table(database='formula_ingest', table_name='results', location="/mnt/formula1/ingest_datalake/results")
 
 # COMMAND ----------
 

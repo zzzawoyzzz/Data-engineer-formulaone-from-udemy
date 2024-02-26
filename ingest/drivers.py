@@ -36,6 +36,7 @@ df_ingest_driver=df_driver.selectExpr("code string",
 "driverRef as driver_ref",
 "concat(name.forename,' ',name.surname) as name",
 "nationality",
+"number",
 "url")
 
 
