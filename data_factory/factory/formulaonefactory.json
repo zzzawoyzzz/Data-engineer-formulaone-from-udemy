@@ -1,0 +1,9 @@
+{
+	"name": "formulaonefactory",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6af78624-3af7-4a5f-91f3-45422b3ace0f",
+		"tenantId": "d6355806-b391-470e-824c-e2feb233d541"
+	}
+}

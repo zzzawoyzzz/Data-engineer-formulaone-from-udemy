@@ -1,0 +1,22 @@
+{
+	"name": "AzureDataLakeStorage1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://formula1awoyproject.dfs.core.windows.net/",
+			"tenant": "d6355806-b391-470e-824c-e2feb233d541",
+			"servicePrincipalId": "c75f7315-eddc-402d-b3b6-e4033bf149ef",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalCredential": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault_formulaone",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "app-secret"
+			}
+		}
+	}
+}

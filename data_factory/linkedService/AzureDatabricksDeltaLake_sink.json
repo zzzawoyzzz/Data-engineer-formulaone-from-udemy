@@ -1,0 +1,20 @@
+{
+	"name": "AzureDatabricksDeltaLake_sink",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLake",
+		"typeProperties": {
+			"domain": "https://adb-4478282417065444.4.azuredatabricks.net/",
+			"clusterId": "0222-171700-tbkqsvnd",
+			"accessToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault_formulaone",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "formulaone-databrick-token"
+			}
+		}
+	}
+}

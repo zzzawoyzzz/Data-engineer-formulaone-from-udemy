@@ -1,0 +1,170 @@
+{
+	"name": "ingest_all",
+	"properties": {
+		"activities": [
+			{
+				"name": "ingest_circuits",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/circuits"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ingest_constructors",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/constructors"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ingest_drivers",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/drivers"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ingest_labtime",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/labtime"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ingest_pit_falls",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/pit_falls"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ingest_qualifying",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/qualifying"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ingest_Races",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/Races"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ingest_results",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/ingest/results"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-02-26T08:41:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,84 @@
+{
+	"name": "publish_all",
+	"properties": {
+		"activities": [
+			{
+				"name": "publish_race_results",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/publish/1.publish_race_results"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "publish_driver_standings",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "publish_race_results",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/publish/2.publish_driver_standings"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "publish_constructor_standings",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "publish_driver_standings",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/www.awoyza@hotmail.com/Data-engineer-formulaone-from-udemy/publish/3.publish_constructor_standings"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_foumalaone",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-02-26T08:41:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

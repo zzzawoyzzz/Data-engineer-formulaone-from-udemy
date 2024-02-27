@@ -1,0 +1,21 @@
+{
+	"name": "AzureDatabricks_foumalaone",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-4478282417065444.4.azuredatabricks.net",
+			"accessToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault_formulaone",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "formulaone-databrick-token",
+				"secretVersion": "b104fd02965d40ac88af565b8a168091"
+			},
+			"existingClusterId": "0222-171700-tbkqsvnd"
+		}
+	}
+}
